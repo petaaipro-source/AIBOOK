@@ -39,5 +39,5 @@ for (const u of users) {
   const w = await S.encrypt({ name: 'AES-GCM', iv }, kek, enc.encode(JSON.stringify({ k, n: u.name || u.username, r: u.role || 'user' })));
   out.users.push({ id, s: b64(salt), iv: b64(iv), w: b64(w) });
 }
-writeFileSync(join(root, 'js/vault.js'), '/* DATA TERENKRIPSI - dihasilkan otomatis oleh tools/build.mjs. Jangan diedit manual. */\nwindow.VAULT=' + JSON.stringify(out) + ';\n');
-console.log(`OK: ${users.length} user, dokumen ${(html.length / 1024).toFixed(0)} KB -> js/vault.js`);
+writeFileSync(join(root, 'vault.js'), '/* DATA TERENKRIPSI - dihasilkan otomatis oleh tools/build.mjs. Jangan diedit manual. */\nwindow.VAULT=' + JSON.stringify(out) + ';\n');
+console.log(`OK: ${users.length} user, dokumen ${(html.length / 1024).toFixed(0)} KB -> vault.js`);

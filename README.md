@@ -2,7 +2,7 @@
 
 ```
 index.html, css/login.css, js/auth.js, js/pwa.js   halaman login (edit langsung, tanpa build)
-js/vault.js                                         DATA TERENKRIPSI (hasil build, jangan diedit)
+vault.js                                         DATA TERENKRIPSI (hasil build, jangan diedit)
 manifest.webmanifest, icons/                        PWA
 src/app/                                            SUMBER dokumen/aplikasi (dienkripsi saat build)
   index.html, css/app.css
@@ -15,12 +15,12 @@ src/app/                                            SUMBER dokumen/aplikasi (die
   js/ext/45-reader.js                               baca keras + sorot
   js/ext/50-library-data.js, 52-library.js          data & panel Pustaka (pedoman, video)
   js/ext/60-mobile.js, 70-search.js                 gaya mobile, pencarian multi-kata
-tools/build.mjs                                     src/app -> js/vault.js
+tools/build.mjs                                     src/app -> vault.js
 tools/users.json                                    daftar user (buat dari users.example.json; tidak di-commit)
 ```
 
 Berkas `js/ext/*.js` yang bertanda `data-iife` di `src/app/index.html` digabung dalam satu scope saat build,
 jadi urutan di index.html = urutan eksekusi.
 
-Update: edit file di `src/app/` -> `node tools/build.mjs` -> commit/push `js/vault.js`.
+Update: edit file di `src/app/` -> `node tools/build.mjs` -> commit/push `vault.js`.
 Tambah/ubah user: edit `tools/users.json` -> build ulang.
