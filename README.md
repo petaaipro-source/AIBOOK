@@ -5,7 +5,7 @@ index.html, css/login.css, js/auth.js, js/pwa.js   halaman login (edit langsung,
 vault.js                                         DATA TERENKRIPSI (hasil build, jangan diedit)
 manifest.webmanifest, icons/                        PWA
 src/app/                                            SUMBER dokumen/aplikasi (dienkripsi saat build)
-  index.html, css/app.css
+  app-source.html, css/app.css
   js/reader.js                                      pembaca: menu, navigasi, cari, penanda
   js/data/doc.js, js/data/images.json               isi dokumen (terkompresi) dan gambar
   js/ext/00-core … 10-protect … 20-notes            dasar, proteksi, catatan
@@ -19,7 +19,7 @@ tools/build.mjs                                     src/app -> vault.js
 tools/users.json                                    daftar user (buat dari users.example.json; tidak di-commit)
 ```
 
-Berkas `js/ext/*.js` yang bertanda `data-iife` di `src/app/index.html` digabung dalam satu scope saat build,
+Berkas `js/ext/*.js` yang bertanda `data-iife` di `src/app/app-source.html` digabung dalam satu scope saat build,
 jadi urutan di index.html = urutan eksekusi.
 
 Update: edit file di `src/app/` -> `node tools/build.mjs` -> commit/push `vault.js`.

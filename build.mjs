@@ -11,7 +11,7 @@ const enc = new TextEncoder();
 
 // 1. Gabungkan aplikasi: <link rel=stylesheet href> dan <script src> lokal di-inline
 const appDir = join(root, 'src/app');
-let html = readFileSync(join(appDir, 'index.html'), 'utf8');
+let html = readFileSync(join(appDir, 'app-source.html'), 'utf8');
 const rd = f => readFileSync(join(appDir, f), 'utf8');
 const ATTR = a => a.replace(/\s*\b(src|data-iife)(=["'][^"']*["'])?/g, '');
 const body = f => rd(f).replace(/<\/script/gi, '<\\/script');
