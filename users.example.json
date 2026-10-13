@@ -1,0 +1,5 @@
+[
+  { "username": "admin", "password": "ganti-password-ini", "name": "Nama Tampilan", "role": "admin" },
+  { "username": "viewer1", "password": "ganti-juga", "name": "Pembaca", "role": "viewer" },
+  { "username": "viewer2", "password": "ganti-juga-2", "name": "Pembaca + Unduh", "role": "viewer", "download": true }
+]
