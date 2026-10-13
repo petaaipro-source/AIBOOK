@@ -1,0 +1,29 @@
+name: Build vault.js
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Bangun vault.js
+        env:
+          USERS_JSON: ${{ secrets.USERS_JSON }}
+          DOCKEY: ${{ secrets.DOCKEY }}
+        run: |
+          test -n "$USERS_JSON" || { echo "Secret USERS_JSON belum diisi"; exit 1; }
+          test -n "$DOCKEY" || { echo "Secret DOCKEY belum diisi"; exit 1; }
+          printf '%s' "$USERS_JSON" > users.json
+          node build.mjs
+          rm -f users.json
+      - name: Commit vault.js
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add vault.js
+          git commit -m "Build vault.js" || echo "Tidak ada perubahan"
+          git push
