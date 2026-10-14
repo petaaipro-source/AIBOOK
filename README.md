@@ -35,3 +35,7 @@ PDF `.bin` dienkripsi dengan kunci dokumen yang sama dengan `vault.js`. Build me
    - `USERS_JSON`: isi `users.json` (format sama dengan `users.example.json`).
 2. Tab Actions > "Build vault.js" > Run workflow. Hasilnya `vault.js` baru otomatis ter-commit.
 Urutan benar: unggah folder `pdf/` dan workflow dulu, jalankan build, baru buka situs.
+
+
+## Modul Teknik Pro (75-teknik.js)
+Tombol 🏗️ Teknik: U-Ditch (DS-1..6, terbuka/siku/tertutup, data Gbr 4.10.2-4.10.5), Box Culvert semua ukuran + rekomendasi dari debit, Pasangan Batu (bahan & tenaga), DPT (cek guling/geser/daya dukung + dimensi otomatis), Bore Pile (Decourt-Quaresma, kelompok tiang). Asisten ikut paham bahasa alami, mis. `box culvert 2x2 panjang 50 m debit 4`. Semua hasil = estimasi awal. Setelah mengubah, jalankan `node build.mjs`.
