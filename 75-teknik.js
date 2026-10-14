@@ -189,6 +189,15 @@ css.textContent=`#tk{position:fixed;inset:auto 14px 70px auto;width:min(540px,ca
 .tkw{margin:6px 0 0;padding:6px 10px;border-radius:8px;font-size:13px;background:#8881}.tkw.b{background:#e5484d22}.tkw.g{background:#1f9b6922}
 .tkt{width:100%;border-collapse:collapse;font-size:12px;margin:4px 0 8px}.tkt th,.tkt td{border:1px solid #8884;padding:2px 5px;text-align:center}#tkb b{display:block;margin-top:10px}
 .tka{display:flex;gap:6px;margin-top:10px}.tka button{padding:6px 12px;border-radius:8px;border:1px solid #8886;background:transparent;cursor:pointer;font-size:12px}
+#tk{width:min(680px,calc(100% - 28px));height:min(86vh,760px)}
+#tk header{padding:12px 14px;font-size:16px}#tk .x{font-size:20px;padding:6px 10px;border-radius:8px}#tk .x:hover{background:#8882}
+#tk nav{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:10px 14px;gap:8px}#tk nav::-webkit-scrollbar{display:none}
+#tk nav button{flex:none;white-space:nowrap;padding:9px 15px;font-size:14px;min-height:40px}
+#tkb{padding:6px 16px 24px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.tkf{gap:12px 10px;align-items:end}.tkf label{font-size:12.5px;font-weight:600;gap:4px}
+.tkf input,.tkf select{font-size:16px;padding:10px;min-height:44px;border-radius:10px}
+.tkr td{padding:9px 6px}.tkr th{background:#1f9b6918;border-radius:6px;padding:9px 8px 6px}
+.tka button{padding:10px 16px;font-size:14px;border-radius:10px;min-height:42px}
 @media print{#tk{display:none!important}}`;
 document.head.appendChild(css);
 const tk=document.createElement('div');tk.id='tk';tk.innerHTML='<header><span>🏗️ Teknik Pro</span><button class="x" aria-label="Tutup">✕</button></header><nav></nav><div id="tkb"></div>';document.body.appendChild(tk);

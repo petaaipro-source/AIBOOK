@@ -11,6 +11,18 @@ addEventListener('keydown',e=>{
     else{const x=el.querySelector('#aix,.x');if(x)x.click()}
     e.stopPropagation();return}
 });
+// panel besar menjadi lembar layar penuh di HP (di atas bilah tombol bawah)
+const fs=document.createElement('style');
+fs.textContent=`@media(max-width:600px){
+#ai,#pk,#tk,#dp{top:env(safe-area-inset-top,0px);left:0;right:0;bottom:calc(62px + env(safe-area-inset-bottom,0px));width:auto;height:auto;max-height:none;border-radius:0;border-width:1px 0}
+#ai header,#pk header,#tk header,#dp header{padding-top:12px;padding-bottom:12px;font-size:16px}
+#ai header button,#pk .x,#tk .x,#dp .x{min-width:40px;min-height:40px}
+#ai input,#pk input{font-size:16px}
+#ai form{padding-bottom:12px}}`;
+document.head.appendChild(fs);
+// tab Teknik: gulirkan tab aktif ke tengah
+const tn2=document.querySelector('#tk nav');
+if(tn2)new MutationObserver(()=>{const on=tn2.querySelector('.on');if(on)on.scrollIntoView({inline:'center',block:'nearest'})}).observe(tn2,{childList:true});
 // tombol melayang: label aksesibel (ikon emoji dibaca sebagai teks oleh pembaca layar)
 document.querySelectorAll('.fab button').forEach(b=>{if(!b.getAttribute('aria-label')){const s=b.querySelector('span');if(s)b.setAttribute('aria-label',s.textContent.trim())}});
 // indikator offline
