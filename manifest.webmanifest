@@ -7,8 +7,10 @@
   "scope": "./",
   "id": "./",
   "display": "standalone",
-  "background_color": "#0d0b14",
-  "theme_color": "#0d0b14",
+  "background_color": "#071a26",
+  "theme_color": "#071a26",
+  "orientation": "any",
+  "categories": ["books", "productivity", "reference"],
   "icons": [
     {
       "src": "icon-192.png",

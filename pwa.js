@@ -1,5 +1,6 @@
-/* Tombol instal PWA (manifest statis: manifest.webmanifest) */
+/* Tombol instal PWA (manifest statis: manifest.webmanifest) + pendaftaran service worker (offline) */
 (function(){
+if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1'))addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
 var g=function(i){return document.getElementById(i)},btn=g('inst'),ios=g('ios'),dp=null;
 var standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
 if(standalone)return;

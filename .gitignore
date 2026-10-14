@@ -1,0 +1,7 @@
+# RAHASIA - jangan pernah di-commit
+users.json
+dockey.txt
+# PDF asli (tidak terenkripsi). Yang di-commit hanya pdf/*.bin
+pdf-src/
+node_modules/
+.DS_Store

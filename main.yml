@@ -1,0 +1,38 @@
+name: Build vault.js
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['app-source.html', 'app.css', 'reader.js', 'doc.js', 'images.json', '[0-9][0-9]-*.js', 'build.mjs']
+permissions:
+  contents: write
+concurrency:
+  group: build-vault
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Bangun vault.js
+        env:
+          USERS_JSON: ${{ secrets.USERS_JSON }}
+          DOCKEY: ${{ secrets.DOCKEY }}
+        run: |
+          test -n "$DOCKEY" || { echo "Secret DOCKEY belum diisi"; exit 1; }
+          # USERS_JSON opsional: bila kosong, pengguna di vault.js yang ada dipakai ulang
+          if [ -n "$USERS_JSON" ]; then printf '%s' "$USERS_JSON" > users.json; fi
+          node build.mjs
+          node build.mjs --check
+          rm -f users.json
+      - name: Commit hasil build
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add vault.js index.html sw.js pdf
+          git commit -m "Build vault.js" || echo "Tidak ada perubahan"
+          git pull --rebase
+          git push

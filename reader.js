@@ -1,6 +1,6 @@
 /* Pembaca dokumen: muat data, menu, navigasi, pencarian kata, penanda */
 const $=id=>document.getElementById(id);
-const m=$('m'),q=$('q'),bk=$('bk'),ti=$('ti'),hb=$('hb'),st=$('st'),dr=$('dr'),nv=$('nv');
+const m=$('m'),q=$('q'),bk=$('bk'),ti=$('ti'),hb=$('hb'),st=$('st'),dr=$('dr'),nv=$('nv'),pb=$('pb');
 let IM=JSON.parse(document.getElementById('im').textContent),D,P,S,keys,fz=16,HL='',cur={k:'home'},stack=[],curSec=null,PM={},SM={};
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
@@ -11,7 +11,9 @@ async function load(){
   const j=JSON.parse(await new Response(s).text());D=j.D;P=j.P;keys=Object.keys(P).map(Number).sort((a,b)=>a-b);S={};
   for(const p of keys){S[p]=P[p].map(b=>b[b.length-1]).join('\n');for(const b of P[p])if(b[0]==='h'){const mm=b[1].match(/^(\d+(?:\.\d+)+)\s/);if(mm&&!(mm[1] in PM))PM[mm[1]]=p}}
   for(const v of D)for(const s of v.secs)SM[s.k]=s.p;
-  setFz(LS.get('sun_fz',16));buildMenu();setTheme(LS.get('sun_theme','auto'));render(cur);
+  setFz(LS.get('sun_fz',16));buildMenu();setTheme(LS.get('sun_theme','auto'));
+  const hm=location.hash.match(/^#hlm-(\d{1,4})$/);if(hm&&P[+hm[1]])cur={k:'read',p:+hm[1],t:+hm[1]};
+  render(cur);
 }
 function resolve(ref){if(PM[ref])return PM[ref];if(SM[ref])return SM[ref];const a=ref.split('.');while(a.length>2){a.pop();const r=a.join('.');if(PM[r])return PM[r];if(SM[r])return SM[r]}return SM[a.join('.')]||null}
 function lk(h){h=h.replace(/§(\d{1,4})§/g,(a,n)=>P[n]?`<a href="#" class="x" data-pg="${n}">${n}</a>`:n);return h.replace(/\b((?:[Ss]eksi|[Pp]asal)\s+)(\d{1,2}(?:\.\d{1,2})+)/g,(a,pre,ref)=>resolve(ref)?`${pre}<a href="#" class="x" data-ref="${ref}">${ref}</a>`:a)}
@@ -21,10 +23,13 @@ function rb(a){return a.map(b=>b[0]==='i'?fig(b[1]):b[0]==='h'?`<div class="h">$
 function secOf(p){for(const v of D)for(const s of v.secs)if(p>=s.p&&p<=s.e)return[v,s];return[null,null]}
 const KK=k=>k==='Lamp.'?'Lampiran':k==='L.Pel'?'Lampiran Pelengkap':/^L\.\d/.test(k)?'Lampiran '+k.slice(2):k==='Pbk'?'Pembuka':/^R\.\d/.test(k)?'Indeks '+k:'Seksi '+k;
 const label=(v,s)=>KK(s.k)+' - '+s.t;
-function go(s){cur.y=scrollY;stack.push(cur);cur=s;render(s)}
-function back(){const s=stack.pop();if(!s){cur={k:'home'};render(cur);return}cur=s;render(s);if(s.y!=null)setTimeout(()=>scrollTo(0,s.y),0)}
+const baseUrl=()=>location.pathname+location.search;
+function go(s){cur.y=scrollY;stack.push(cur);cur=s;render(s);try{history.pushState({n:stack.length},'',s.k==='read'?'#hlm-'+s.p:baseUrl())}catch(e){}}
+function popBack(){const s=stack.pop();if(!s){cur={k:'home'};render(cur);try{history.replaceState(null,'',baseUrl())}catch(e){}return}cur=s;render(s);if(s.y!=null)setTimeout(()=>scrollTo(0,s.y),0)}
+function back(){if(stack.length&&history.state&&history.state.n){history.back();return}popBack()}
+addEventListener('popstate',()=>{if(stack.length)popBack();else if(cur.k!=='home'){cur={k:'home'};render(cur)}});
 function render(s){
-  bk.hidden=s.k==='home';st.hidden=s.k!=='read';
+  pb.style.transform='scaleX(0)';bk.hidden=s.k==='home';st.hidden=s.k!=='read';
   if(s.k==='home'){HL='';q.value='';home()}
   else if(s.k==='search'){q.value=s.q;search(s.q)}
   else{HL=s.hl||'';q.value=s.qv||'';open_(s.p,s.t)}
@@ -32,13 +37,13 @@ function render(s){
 function home(){
   ti.textContent='Spesifikasi Umum 2025';curSec=null;let h='';
   const l=LS.get('sun_last',null);
-  if(l&&P[l.p]){const [v,s]=secOf(l.p);if(s)h+=`<div class="r" data-p="${l.p}"><b>Lanjutkan membaca</b><br>${esc(label(v,s))}${l.p>=2000?'':' - hlm. '+l.p}</div>`}
+  if(l&&P[l.p]){const [v,s]=secOf(l.p);if(s)h+=`<div class="r" tabindex="0" role="button" data-p="${l.p}"><b>Lanjutkan membaca</b><br>${esc(label(v,s))}${l.p>=2000?'':' - hlm. '+l.p}</div>`}
   const b=bms().filter(x=>P[x.p]);
-  if(b.length){h+='<p class="pg">Penanda</p>';for(const x of b)h+=`<div class="r" data-p="${x.p}">&#9733; ${esc(KK(x.k))} - ${esc(x.t)}</div>`}
+  if(b.length){h+='<p class="pg">Penanda</p>';for(const x of b)h+=`<div class="r" tabindex="0" role="button" data-p="${x.p}">&#9733; ${esc(KK(x.k))} - ${esc(x.t)}</div>`}
   if(h)h+='<p class="pg">Semua divisi</p>';
   for(const v of D){
     h+=`<details><summary><span class="no">${v.n}</span><span class="nm">${esc(v.name)}<small>${v.secs.length} ${v.n==='L'?'lampiran':'seksi'}${v.n==='R'?' - tambahan':' - hlm. '+v.a+'-'+v.b}</small></span></summary>`;
-    for(const s of v.secs)h+=`<div class="s" data-p="${s.p}"><span class="k${v.n==='L'?' kl':''}">${s.k}</span><span class="t">${esc(s.t)}<span class="pg">${v.n==='R'?'indeks tambahan':'hlm. '+s.p+'-'+s.e}</span></span></div>`;
+    for(const s of v.secs)h+=`<div class="s" tabindex="0" role="button" data-p="${s.p}"><span class="k${v.n==='L'?' kl':''}">${s.k}</span><span class="t">${esc(s.t)}<span class="pg">${v.n==='R'?'indeks tambahan':'hlm. '+s.p+'-'+s.e}</span></span></div>`;
     h+='</details>';
   }
   m.innerHTML=h;scrollTo(0,0);
@@ -50,6 +55,8 @@ function open_(p,target){
   const [v,s]=secOf(p);if(!s){home();return}curSec=s;
   ti.textContent=(v.n==='P'?'':v.n==='L'?KK(s.k)+' - ':v.n==='R'?'Indeks '+s.k+' - ':'Seksi '+s.k+' - ')+s.t;
   let h='';for(let i=s.p;i<=s.e;i++)if(P[i])h+=`<div class="pgh" id="p${i}">${i>=2000?'Indeks - bagian '+(i-2000):'Halaman '+i}</div><div class="txt">${rb(P[i])}</div>`;
+  const all=D.flatMap(x=>x.secs.map(y=>[x,y])),ix=all.findIndex(a=>a[1]===s),pv=all[ix-1],nx=all[ix+1];
+  h+='<nav class="sn" aria-label="Navigasi seksi">'+(pv?`<button type="button" data-p="${pv[1].p}"><small>&#8249; Sebelumnya</small><span>${esc(label(pv[0],pv[1]))}</span></button>`:'<span></span>')+(nx?`<button type="button" data-p="${nx[1].p}"><small>Berikutnya &#8250;</small><span>${esc(label(nx[0],nx[1]))}</span></button>`:'<span></span>')+'</nav><button type="button" id="up" class="up">&#8593; Kembali ke atas</button>';
   m.innerHTML=h;m.querySelectorAll('.txt').forEach(e=>e.style.fontSize=fz+'px');updStar();
   const t=target||p;LS.set('sun_last',{p:t});
   const el=$('p'+t),mk=el&&el.nextElementSibling&&el.nextElementSibling.querySelector('mark');
@@ -60,16 +67,16 @@ function search(t){
   for(const p of keys){const x=S[p],i=x.toLowerCase().indexOf(w);if(i<0)continue;tot++;
     if(res.length<50){const a=Math.max(0,i-70),sn=x.slice(a,i+w.length+110);res.push([p,esc(sn.slice(0,i-a))+'<mark><b>'+esc(sn.slice(i-a,i-a+w.length))+'</b></mark>'+esc(sn.slice(i-a+w.length))])}}
   let h=`<p class="pg">${tot} halaman cocok${tot>50?' (50 pertama)':''}</p>`;
-  for(const [p,sn] of res){const [v,s]=secOf(p);h+=`<div class="r" data-p="${p}"><b>${s?KK(s.k):''}</b>${p>=2000?'':' - hlm. '+p}<br>${sn}</div>`}
+  for(const [p,sn] of res){const [v,s]=secOf(p);h+=`<div class="r" tabindex="0" role="button" data-p="${p}"><b>${s?KK(s.k):''}</b>${p>=2000?'':' - hlm. '+p}<br>${sn}</div>`}
   m.innerHTML=tot?h:'<p class="empty">Tidak ada yang cocok. Coba kata kunci lain.</p>';scrollTo(0,0);
 }
-function menu(o){dr.hidden=!o;hb.setAttribute('aria-expanded',o)}
+function menu(o){dr.hidden=!o;hb.setAttribute('aria-expanded',o);if(o)nv.focus();else if(document.activeElement&&nv.contains(document.activeElement))hb.focus()}
 function setFz(n){fz=Math.max(14,Math.min(26,n));LS.set('sun_fz',fz);document.querySelectorAll('.txt').forEach(e=>e.style.fontSize=fz+'px');const f=$('fzv');if(f)f.textContent=fz}
 function setTheme(t){const r=document.documentElement;t==='auto'?r.removeAttribute('data-theme'):r.setAttribute('data-theme',t);LS.set('sun_theme',t);nv.querySelectorAll('[data-th]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.th===t))}
 function buildMenu(){
   let h='<h2>Navigasi</h2><button class="mi" id="mh">Beranda (semua divisi)</button><h2>Penanda</h2><div id="bml"></div><h2>Ukuran huruf</h2><div class="seg"><button id="fm" aria-label="Kecilkan">A-</button><button disabled id="fzv">'+fz+'</button><button id="fp" aria-label="Besarkan">A+</button></div><h2>Tema</h2><div class="seg"><button data-th="auto">Otomatis</button><button data-th="light">Terang</button><button data-th="dark">Gelap</button></div><h2>Lompat ke seksi</h2>';
   for(const v of D){h+=`<details><summary><span class="no">${v.n}</span><span class="nm">${esc(v.name)}</span></summary>`;
-    for(const s of v.secs)h+=`<div class="s" data-m="${s.p}"><span class="k${v.n==='L'?' kl':''}">${s.k}</span><span class="t">${esc(s.t)}</span></div>`;h+='</details>'}
+    for(const s of v.secs)h+=`<div class="s" tabindex="0" role="button" data-m="${s.p}"><span class="k${v.n==='L'?' kl':''}">${s.k}</span><span class="t">${esc(s.t)}</span></div>`;h+='</details>'}
   nv.innerHTML=h;renderBm();
   $('mh').onclick=()=>{menu(false);stack=[];cur={k:'home'};render(cur)};
   $('fm').onclick=()=>setFz(fz-2);$('fp').onclick=()=>setFz(fz+2);
@@ -96,4 +103,8 @@ function lbClose(){lb.hidden=true;lbi.removeAttribute('src')}
 m.addEventListener('click',e=>{const im=e.target.closest('img[data-fig]');if(im)lbOpen(im.src)});
 $('lbx').onclick=lbClose;lb.addEventListener('click',e=>{if(e.target===lb)lbClose()});
 addEventListener('keydown',e=>{if(e.key==='Escape')lbClose()});
+m.addEventListener('click',e=>{if(e.target.closest('#up'))scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'})});
+addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[role=button][data-p],[role=button][data-m]')){e.preventDefault();e.target.click()}});
+let pr=0;addEventListener('scroll',()=>{if(pr)return;pr=requestAnimationFrame(()=>{pr=0;const h=document.documentElement.scrollHeight-innerHeight;pb.style.transform='scaleX('+(cur.k==='read'&&h>0?Math.min(1,scrollY/h):0).toFixed(4)+')'})},{passive:true});
+addEventListener('keydown',e=>{if(e.key==='/'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!/^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement||{}).tagName||'')){e.preventDefault();q.focus();q.select()}});
 load().catch(()=>{m.innerHTML='<p class="empty">Browser ini tidak mendukung dekompresi. Perbarui browser Anda.</p>'});

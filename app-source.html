@@ -1,12 +1,16 @@
 <!DOCTYPE html><html lang="id"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f3f5f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111a15" media="(prefers-color-scheme: dark)">
 <title>Spesifikasi Umum 2025</title>
 <link rel="stylesheet" href="css/app.css">
 </head><body>
 <header><div class="row"><button id="hb" aria-label="Buka menu" aria-expanded="false">&#9776;</button><button id="bk" hidden>Kembali</button><h1 id="ti">Spesifikasi Umum 2025</h1><button id="st" hidden aria-label="Tandai seksi ini">&#9734;</button><button id="fs" title="Ukuran huruf">A+</button></div>
-<input id="q" type="search" placeholder="Cari isi, mis. kuat tekan beton" autocomplete="off"></header>
-<div id="dr" hidden><div class="ov" id="ov"></div><nav id="nv" aria-label="Menu"></nav></div>
+<input id="q" type="search" placeholder="Cari isi, mis. kuat tekan beton  (tekan / untuk mencari)" autocomplete="off" aria-label="Cari isi dokumen" enterkeyhint="search"><i id="pb" aria-hidden="true"></i></header>
+<div id="dr" hidden><div class="ov" id="ov"></div><nav id="nv" aria-label="Menu" tabindex="-1"></nav></div>
 <main id="m"><p class="empty">Memuat isi dokumen...</p></main>
+<noscript>Aplikasi ini membutuhkan JavaScript.</noscript>
 <div id="lb" hidden><button id="lbx" aria-label="Tutup gambar">Tutup &#10005;</button><img id="lbi" alt="Gambar diperbesar"></div>
 <script id="im" type="application/json" src="js/data/images.json"></script>
 <script src="js/data/doc.js"></script>
@@ -24,4 +28,5 @@
 <script data-iife src="js/ext/60-mobile.js"></script>
 <script data-iife src="js/ext/70-search.js"></script>
 <script data-iife src="js/ext/75-teknik.js"></script>
+<script data-iife src="js/ext/80-polish.js"></script>
 </body></html>

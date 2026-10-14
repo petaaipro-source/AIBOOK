@@ -37,3 +37,15 @@ h1{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#st{fon
 #lb{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.92);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 56px) 8px calc(env(safe-area-inset-bottom,0px) + 16px)}
 #lb[hidden]{display:none}#lbi{display:block;margin:0 auto;min-width:100%;width:auto;max-width:none;background:#fff}
 #lbx{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px;z-index:21}
+
+/* ---- pembaruan: progres baca, navigasi seksi, fokus, gerak ---- */
+#pb{position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--acc);transform-origin:0 50%;transform:scaleX(0);pointer-events:none}
+.sn{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:28px 0 10px}
+.sn button{display:flex;flex-direction:column;gap:2px;text-align:left;padding:12px 14px;min-width:0}
+.sn button:last-child:not(:first-child){text-align:right}
+.sn small{color:var(--acc);font-weight:700;font-size:12px}
+.sn span{font-size:13.5px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.up{display:block;margin:0 auto 20px;color:var(--mut);font-size:13px;border-style:dashed}
+.r:focus-visible,.s:focus-visible,[data-p]:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+#nv:focus{outline:none}
+@media(prefers-reduced-motion:reduce){body{animation:none!important}html{scroll-behavior:auto!important}}

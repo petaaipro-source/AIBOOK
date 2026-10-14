@@ -22,7 +22,7 @@ function qterms(q){build();const base=[...new Set(tk(q,true))],W=new Map(),typo=
   return{base,W,alt,typo:typo.filter(t=>t[1])}}
 function intent(q){let m=q.match(/\b(?:seksi|pasal|bagian)\s+(\d+(?:\.\d+)+)/i);if(m){const p=resolve(m[1]);if(p)return{type:'sec',ref:m[1],p}}
   m=q.match(/\b(?:hlm\.?|halaman)\s*(\d{1,4})\b/i);if(m&&P[+m[1]])return{type:'pg',p:+m[1]};return null}
-function rank(q){const{base,W,alt,typo}=qterms(q),sc=[];if(!W.size)return{base,W,typo,top:[]};
+function rank(q,n=6){const{base,W,alt,typo}=qterms(q),sc=[];if(!W.size)return{base,W,typo,top:[]};
   const pairs=[];for(let i=0;i<base.length-1;i++)pairs.push(' '+base[i]+' '+base[i+1]+' ');const full=base.length>1?' '+base.join(' ')+' ':null;
   for(const p of keys){const tf=IX.d[p];let s=0;
     for(const[w,wt]of W){const f=tf[w];if(f)s+=idf(w)*wt*f*2.5/(f+1.5*(.25+.75*IX.len[p]/IX.avg))}
@@ -33,7 +33,7 @@ function rank(q){const{base,W,alt,typo}=qterms(q),sc=[];if(!W.size)return{base,W
     const sec=IX.st.find(x=>p>=x.p&&p<=x.e);if(sec){let th=0;for(const w of base)if(sec.ts.has(w))th++;if(th)s*=1+.5*(th/base.length)*(p===sec.p?1:.4)}
     sc.push([p,s,cov])}
   sc.sort((a,b)=>b[1]-a[1]);const top=[],per={};
-  for(const r of sc){const sec=IX.st.find(x=>r[0]>=x.p&&r[0]<=x.e),k=sec?sec.p:0;per[k]=(per[k]||0)+1;if(per[k]<=3)top.push(r);if(top.length>=6)break}
+  for(const r of sc){const sec=IX.st.find(x=>r[0]>=x.p&&r[0]<=x.e),k=sec?sec.p:0;per[k]=(per[k]||0)+1;if(per[k]<=3)top.push(r);if(top.length>=n)break}
   return{base,W,typo,top,low:!top.length||top[0][2]<.5}}
 function lscore(l,W){let s=0;for(const w of new Set(tk(l)))if(W.has(w))s+=idf(w)*W.get(w);return s}
 function bestLines(p,W,base){const pr=base&&base.length>1?base.slice(0,-1).map((a,i)=>a+' '+base[i+1]):[],re=W.size?new RegExp('('+[...W.keys()].join('|')+')','i'):null;
