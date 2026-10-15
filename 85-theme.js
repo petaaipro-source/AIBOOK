@@ -2,19 +2,19 @@
 (()=>{
 const css=document.createElement('style');
 css.textContent=`
-:root{--bg:#eaf2f5;--card:#ffffffd9;--ink:#0b2230;--mut:#5a7381;--acc:#0a8f94;--acc2:#1fb6a6;--line:#0a8f9426;--chip:#0a8f9414;--mk:#ffe14d;--pkbg:#fffffff2;--pkfg:#0b2230;--glow:#0a8f9433;--sh:0 10px 34px #0b223018;--mono:"JetBrains Mono",ui-monospace,Consolas,monospace}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#06161f;--card:#0a2130cc;--ink:#e8f7fb;--mut:#86a8b8;--acc:#3be6ff;--acc2:#19c8b9;--line:#3be6ff2e;--chip:#3be6ff14;--mk:#ffc247;--pkbg:#081e2cf2;--pkfg:#e8f7fb;--glow:#3be6ff40;--sh:0 14px 44px #000a}}
-:root[data-theme=dark]{--bg:#06161f;--card:#0a2130cc;--ink:#e8f7fb;--mut:#86a8b8;--acc:#3be6ff;--acc2:#19c8b9;--line:#3be6ff2e;--chip:#3be6ff14;--mk:#ffc247;--pkbg:#081e2cf2;--pkfg:#e8f7fb;--glow:#3be6ff40;--sh:0 14px 44px #000a}
+:root{--bg:#eaf2f5;--card:#ffffffd9;--ink:#0b2230;--mut:#5a7381;--acc:#0a8f94;--acc2:#1fb6a6;--line:#0a8f9426;--chip:#0a8f9414;--mk:#ffe14d;--pkbg:#fffffff2;--pkfg:#0b2230;--glow:#0a8f9433;--bgs:#eaf2f5;--cards:#ffffff;--sh:0 10px 34px #0b223018;--mono:"JetBrains Mono",ui-monospace,Consolas,monospace}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#06161f;--card:#0a2130cc;--ink:#e8f7fb;--mut:#86a8b8;--acc:#3be6ff;--acc2:#19c8b9;--line:#3be6ff2e;--chip:#3be6ff14;--mk:#ffc247;--pkbg:#081e2cf2;--pkfg:#e8f7fb;--glow:#3be6ff40;--bgs:#06161f;--cards:#0a2130;--sh:0 14px 44px #000a}}
+:root[data-theme=dark]{--bg:#06161f;--card:#0a2130cc;--ink:#e8f7fb;--mut:#86a8b8;--acc:#3be6ff;--acc2:#19c8b9;--line:#3be6ff2e;--chip:#3be6ff14;--mk:#ffc247;--pkbg:#081e2cf2;--pkfg:#e8f7fb;--glow:#3be6ff40;--bgs:#06161f;--cards:#0a2130;--sh:0 14px 44px #000a}
 body{font-family:"Space Grotesk","Segoe UI",system-ui,sans-serif;background:radial-gradient(900px 520px at 85% -10%,var(--glow),transparent 60%),radial-gradient(700px 480px at -10% 110%,var(--glow),transparent 60%),var(--bg) fixed;letter-spacing:.005em}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(var(--line) 1px,transparent 1.2px);background-size:26px 26px;-webkit-mask-image:radial-gradient(circle at 50% 35%,#000,transparent 75%);mask-image:radial-gradient(circle at 50% 35%,#000,transparent 75%)}
-main{position:relative;z-index:1}header{position:sticky;z-index:50}
-header{background:var(--bg);box-shadow:0 8px 24px #0b223014;border-bottom:1px solid var(--line);padding:14px 18px 12px}
+main{position:relative;z-index:1}header{position:sticky!important;z-index:1000!important}
+header{background:var(--bgs)!important;box-shadow:0 8px 24px #0b223014;border-bottom:1px solid var(--line);padding:14px 18px 12px}
 header .row{max-width:1100px;margin:0 auto 10px}
 h1{font-size:19px;font-weight:700;letter-spacing:.02em;background:linear-gradient(90deg,var(--ink),var(--acc));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 button{border-radius:12px;border:1px solid var(--line);background:var(--card);transition:transform .15s,box-shadow .2s,border-color .2s,background .2s}
 button:hover{border-color:var(--acc);box-shadow:0 0 0 3px var(--glow);transform:translateY(-1px)}button:active{transform:scale(.97)}
 #hb,#fs,#st,#bk{width:44px;height:44px;padding:0;display:grid;place-items:center;font-weight:700}#bk{width:auto;padding:0 14px}
-#q{max-width:1100px;display:block;margin:0 auto;border-radius:999px;padding:14px 20px;background:var(--card);border:1px solid var(--line);box-shadow:var(--sh);transition:box-shadow .2s,border-color .2s}
+#q{max-width:1100px;display:block;margin:0 auto;border-radius:999px;padding:14px 20px;background:var(--cards)!important;border:1px solid var(--line);box-shadow:var(--sh);transition:box-shadow .2s,border-color .2s}
 #q:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 4px var(--glow),var(--sh)}
 #pb{height:3px;background:linear-gradient(90deg,var(--acc),var(--acc2));box-shadow:0 0 12px var(--acc)}
 main{max-width:860px;padding:22px 16px 120px}
@@ -39,10 +39,13 @@ mark{background:var(--mk);box-shadow:0 0 10px var(--mk)}
 .fab button{flex:none!important;min-width:64px;flex-direction:column!important;border:0!important;background:transparent!important;box-shadow:none!important;border-radius:16px!important;padding:7px 10px!important;font:600 11px "Space Grotesk",system-ui,sans-serif!important;color:var(--pkfg)!important}
 .fab button i{font-size:19px!important;transition:transform .2s}.fab button:hover{background:var(--chip)!important;transform:none}.fab button:hover i{transform:translateY(-3px) scale(1.15)}
 @media(max-width:600px){.fab{left:0!important;right:0!important;bottom:0!important;transform:none;max-width:none!important;border-radius:20px 20px 0 0;justify-content:space-around;padding-bottom:calc(6px + env(safe-area-inset-bottom,0px))!important}.fab button{flex:1!important;min-width:0}}
+/* panel: terkunci di antara header dan dok navigasi */
+#ai,#pk,#tk,#dp{top:calc(var(--hh,140px) + 10px)!important;bottom:calc(var(--dk,84px) + 24px)!important;height:auto!important;max-height:none!important;right:max(14px,calc((100% - 1100px)/2))!important}
+@media(max-width:600px){#ai,#pk,#tk,#dp{top:calc(var(--hh,120px) + env(safe-area-inset-top,0px))!important;bottom:var(--dk,64px)!important;right:0!important;left:0!important}}
 /* panel */
 #ai,#pk,#tk,#dp,#np{background:var(--pkbg)!important;border:1px solid var(--line)!important;border-radius:22px!important;box-shadow:0 24px 70px #000a,0 0 0 1px var(--glow)!important;-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);bottom:96px!important;overflow:hidden;animation:pin .28s cubic-bezier(.2,.9,.3,1.2)}
 @keyframes pin{from{opacity:0;transform:translateY(18px) scale(.97)}}
-@media(max-width:600px){#ai,#pk,#tk,#dp{bottom:calc(66px + env(safe-area-inset-bottom,0px))!important;border-radius:0!important}}
+@media(max-width:600px){#ai,#pk,#tk,#dp{border-radius:0!important}}
 #ai header,#pk header,#tk header,#dp header{background:linear-gradient(90deg,var(--chip),transparent)!important;border-bottom:1px solid var(--line)!important;font-weight:700;letter-spacing:.03em}
 #tk .x:hover,#pk .x:hover,#dp .x:hover{background:var(--chip);box-shadow:none}
 #tk nav button{border:1px solid var(--line);background:var(--chip);color:var(--pkfg);transition:all .2s}
@@ -69,13 +72,16 @@ mark{background:var(--mk);box-shadow:0 0 10px var(--mk)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 `;
 document.head.appendChild(css);
+const meas=()=>{const h=document.querySelector('header'),f=document.querySelector('.fab'),r=document.documentElement.style;
+  if(h)r.setProperty('--hh',h.getBoundingClientRect().bottom+'px');if(f)r.setProperty('--dk',f.offsetHeight+'px')};
+meas();addEventListener('resize',meas);setInterval(meas,700);
 // cahaya mengikuti kursor pada kartu
 addEventListener('pointermove',e=>{const d=e.target.closest&&e.target.closest('details');if(!d)return;const r=d.getBoundingClientRect();d.style.setProperty('--mx',(e.clientX-r.left)+'px');d.style.setProperty('--my',(e.clientY-r.top)+'px')},{passive:true});
 // ringkasan hasil Teknik: angka kunci tampil menonjol sebagai kartu di atas tabel
 const tkb=document.getElementById('tkb');
 if(tkb)new MutationObserver(()=>{const t=tkb.querySelector('.tkr');if(!t||tkb.querySelector('.kpi'))return;
   const rows=[...t.querySelectorAll('tr')].filter(r=>r.children.length===3).slice(0,3);if(!rows.length)return;
-  const k=document.createElement('div');k.className='kpi';k.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin:10px 0';
-  k.innerHTML=rows.map(r=>`<div style="padding:12px;border-radius:14px;border:1px solid var(--line);background:linear-gradient(160deg,var(--chip),transparent)"><div style="font-size:11px;color:var(--mut);line-height:1.25">${r.children[0].textContent}</div><div style="font:700 20px var(--mono);color:var(--acc);margin-top:4px">${r.children[1].textContent}<small style="font-size:11px;color:var(--mut);margin-left:4px">${r.children[2].textContent}</small></div></div>`).join('');
+  const k=document.createElement('div');k.className='kpi';k.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0';
+  k.innerHTML=rows.map(r=>`<div style="padding:12px;border-radius:14px;border:1px solid var(--line);background:linear-gradient(160deg,var(--chip),transparent)"><div style="font-size:11px;color:var(--mut);line-height:1.25">${r.children[0].textContent}</div><div style="font:700 17px var(--mono);color:var(--acc);margin-top:4px;overflow-wrap:anywhere">${r.children[1].textContent}<small style="font-size:11px;color:var(--mut);margin-left:4px">${r.children[2].textContent}</small></div></div>`).join('');
   t.parentNode.insertBefore(k,t)}).observe(tkb,{childList:true,subtree:true});
 })();
