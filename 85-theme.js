@@ -7,8 +7,8 @@ css.textContent=`
 :root[data-theme=dark]{--bg:#06161f;--card:#0a2130cc;--ink:#e8f7fb;--mut:#86a8b8;--acc:#3be6ff;--acc2:#19c8b9;--line:#3be6ff2e;--chip:#3be6ff14;--mk:#ffc247;--pkbg:#081e2cf2;--pkfg:#e8f7fb;--glow:#3be6ff40;--sh:0 14px 44px #000a}
 body{font-family:"Space Grotesk","Segoe UI",system-ui,sans-serif;background:radial-gradient(900px 520px at 85% -10%,var(--glow),transparent 60%),radial-gradient(700px 480px at -10% 110%,var(--glow),transparent 60%),var(--bg) fixed;letter-spacing:.005em}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(var(--line) 1px,transparent 1.2px);background-size:26px 26px;-webkit-mask-image:radial-gradient(circle at 50% 35%,#000,transparent 75%);mask-image:radial-gradient(circle at 50% 35%,#000,transparent 75%)}
-main,header{position:relative;z-index:1}header{position:sticky}
-header{background:color-mix(in srgb,var(--bg) 72%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line);padding:14px 18px 12px}
+main{position:relative;z-index:1}header{position:sticky;z-index:50}
+header{background:var(--bg);box-shadow:0 8px 24px #0b223014;border-bottom:1px solid var(--line);padding:14px 18px 12px}
 header .row{max-width:1100px;margin:0 auto 10px}
 h1{font-size:19px;font-weight:700;letter-spacing:.02em;background:linear-gradient(90deg,var(--ink),var(--acc));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 button{border-radius:12px;border:1px solid var(--line);background:var(--card);transition:transform .15s,box-shadow .2s,border-color .2s,background .2s}
